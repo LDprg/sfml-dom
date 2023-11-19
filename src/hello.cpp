@@ -12,6 +12,8 @@ int main()
 
     while (window.isOpen())
     {
+        static bool space = false;
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -19,12 +21,17 @@ int main()
                 window.close();
             else if (event.type == sf::Event::KeyPressed)
                 if (event.key.code == sf::Keyboard::Space)
-                     shape.setFillColor(shape.getFillColor() == sf::Color::Green ? sf::Color::Red : sf::Color::Green);
+                    space = !space;
         }
 
 
         window.clear();
-        window.draw(shape);
+
+        if (space)
+            window.draw(shape);
+        else
+            window.draw(shape2);
+        
         window.display();
     }
 

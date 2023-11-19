@@ -38,7 +38,7 @@
             src = ./.;
 
             nativeBuildInputs = [ cmake ];
-            buildInputs = [ zeromq ];
+            buildInputs = [ sfml ];
 
             configurePhase = ''
               cmake .

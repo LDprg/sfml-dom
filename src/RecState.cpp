@@ -5,5 +5,5 @@
 void RecState::event(Game &game, sf::Event &event) 
 {
     if (event.type == sf::Event::KeyPressed)
-        game.changeState(new CircleState);
+        game.changeState(std::make_unique<CircleState>());
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 #include <SFML/Graphics.hpp>
 
@@ -11,21 +12,15 @@ class Game
     friend Gamestate;
 
 public:
-    Game(unsigned int x, unsigned int y, std::string title, Gamestate* gamestate)
+    Game(unsigned int x, unsigned int y, std::string title, std::unique_ptr<Gamestate> gamestate)
         : window(sf::VideoMode(x, y), title)
     {
-        changeState(gamestate);
+        changeState(std::move(gamestate));
     }
 
-    ~Game()
+    void changeState(std::unique_ptr<Gamestate>&& gamestate)
     {
-        delete gamestate;
-    }
-
-    void changeState(Gamestate* gamestate)
-    {
-        delete this->gamestate;
-        this->gamestate = gamestate;
+        this->gamestate.swap(gamestate);
     }
 
     int run()
@@ -54,5 +49,5 @@ public:
     sf::RenderWindow window;
 
 private:
-    Gamestate *gamestate;
+    std::unique_ptr<Gamestate> gamestate;
 };

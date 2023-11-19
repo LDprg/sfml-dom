@@ -13,9 +13,7 @@ class Game
 public:
     Game(unsigned int x, unsigned int y, std::string title, Gamestate* gamestate)
         : window(sf::VideoMode(x, y), title)
-        //  ,shape2({200, 300})
     {
-        // shape2.setFillColor(sf::Color::Red);
         changeState(gamestate);
     }
 
@@ -47,8 +45,6 @@ public:
 
             window.clear();
 
-            // window.draw(shape2);
-
             gamestate->draw(*this);
 
             window.display();
@@ -56,9 +52,6 @@ public:
     }
 
     sf::RenderWindow window;
-
-// protected:
-//     sf::RectangleShape shape2;
 
 private:
     Gamestate *gamestate;

@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 find_package(sfml)
 
-file(GLOB SRC "*.c" "*.cpp" "*.h" "*.hpp")
+file(GLOB SRC "src/*.c" "src/*.cpp" "src/*.h" "src/*.hpp")
 add_executable(Sandbox ${SRC})
 
 target_include_directories(Sandbox PUBLIC "src")

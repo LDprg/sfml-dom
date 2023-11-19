@@ -4,48 +4,56 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Gamestate.hpp"
+
 class Game
 {
+    friend Gamestate;
+
 public:
-    Game(unsigned int x, unsigned int y, std::string title)
-        : window(sf::VideoMode(x, y), title),
-          shape(100.f),
-          shape2({200, 300})
+    Game(unsigned int x, unsigned int y, std::string title, Gamestate* gamestate)
+        : window(sf::VideoMode(x, y), title)
+        //  ,shape2({200, 300})
     {
-        shape.setFillColor(sf::Color::Green);
-        shape2.setFillColor(sf::Color::Red);
+        // shape2.setFillColor(sf::Color::Red);
+        this->gamestate = gamestate;
+    }
+
+    ~Game()
+    {
+        delete gamestate;
     }
 
     int run()
     {
         while (window.isOpen())
         {
-            static bool space = false;
-
             sf::Event event;
             while (window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
                     window.close();
-                else if (event.type == sf::Event::KeyPressed)
-                    if (event.key.code == sf::Keyboard::Space)
-                        space = !space;
+
+                gamestate->event(*this, event);
             }
+
+            gamestate->update(*this);
 
             window.clear();
 
-            if (space)
-                window.draw(shape);
-            else
-                window.draw(shape2);
+            // window.draw(shape2);
+
+            gamestate->draw(*this);
 
             window.display();
         }
     }
 
-protected:
     sf::RenderWindow window;
 
-    sf::CircleShape shape;
-    sf::RectangleShape shape2;
+// protected:
+//     sf::RectangleShape shape2;
+
+private:
+    Gamestate *gamestate;
 };

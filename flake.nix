@@ -30,33 +30,46 @@
       # A Nixpkgs overlay.
       overlay = final: prev: {
 
-        hello = with final;
+        sandbox = with final;
           stdenv.mkDerivation rec {
-            pname = "hello";
+            pname = "Sandbox";
             inherit version;
 
             src = ./.;
 
             nativeBuildInputs = [ cmake ];
             buildInputs = [ zeromq ];
+
+            configurePhase = ''
+              cmake .
+            '';
+
+            buildPhase = ''
+              make
+            '';
+
+            installPhase = ''
+              mkdir -p $out/bin
+              mv Sandbox $out/bin
+            '';
           };
 
       };
 
       # Provide some binary packages for selected system types.
       packages =
-        forAllSystems (system: { inherit (nixpkgsFor.${system}) hello; });
+        forAllSystems (system: { inherit (nixpkgsFor.${system}) sandbox; });
 
       # The default package for 'nix build'. This makes sense if the
       # flake provides only one package or there is a clear "main"
       # package.
-      defaultPackage = forAllSystems (system: self.packages.${system}.hello);
+      defaultPackage = forAllSystems (system: self.packages.${system}.sandbox);
 
       # A NixOS module, if applicable (e.g. if the package provides a system service).
-      nixosModules.hello = { pkgs, ... }: {
+      nixosModules.sandbox = { pkgs, ... }: {
         nixpkgs.overlays = [ self.overlay ];
 
-        environment.systemPackages = [ pkgs.hello ];
+        environment.systemPackages = [ pkgs.sandbox ];
       };
     };
 }

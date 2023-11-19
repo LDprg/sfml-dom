@@ -6,3 +6,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 file(GLOB_RECURSE SRC "src/**.cpp" )
 add_executable(Sandbox ${SRC})
+
+find_package (ZeroMQ)

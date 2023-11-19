@@ -16,12 +16,18 @@ public:
         //  ,shape2({200, 300})
     {
         // shape2.setFillColor(sf::Color::Red);
-        this->gamestate = gamestate;
+        changeState(gamestate);
     }
 
     ~Game()
     {
         delete gamestate;
+    }
+
+    void changeState(Gamestate* gamestate)
+    {
+        delete this->gamestate;
+        this->gamestate = gamestate;
     }
 
     int run()

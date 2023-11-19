@@ -12,7 +12,7 @@ public:
         shape.setFillColor(sf::Color::Green);
     }
 
-    void event(Game &game, sf::Event &event) override {}
+    void event(Game &game, sf::Event &event) override;
 
     void update(Game &game) override {}
 
